@@ -17,3 +17,4 @@ typedef struct sockaddr SOCKADDR;
 #define SORTIE_STANDARD 1
 
 void ext_out ();
+void ext_in(int fd); //descripteur fichier source
