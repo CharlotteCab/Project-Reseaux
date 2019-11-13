@@ -10,6 +10,7 @@
 #include <linux/if.h>
 #include <linux/if_tun.h>
 #include "iftun.h"
+#include "../extremite/extremite.h"
 
 
 
@@ -31,7 +32,8 @@ int tun_alloc(char *dev)
    *
    *        IFF_NO_PI - Do not provide packet information
    */
-  ifr.ifr_flags = IFF_TUN;
+  ifr.ifr_flags = IFF_TUN ;
+  // | IFF_NO_PI;
   if( *dev )
     strncpy(ifr.ifr_name, dev, IFNAMSIZ);
 
@@ -46,14 +48,22 @@ int tun_alloc(char *dev)
 int main (int argc, char** argv){
 
   int tunfd;
-  printf("Creation de %s\n",argv[1]);
+  //printf("Creation de %s\n",argv[1]);
   tunfd = tun_alloc(argv[1]);
-  printf("Faire la configuration de %s...\n",argv[1]);
-  printf("Appuyez sur une touche pour continuer\n");
-  getchar();
-  printf("Interface %s Configuree:\n",argv[1]);
-  system("ip addr");
-  copie_src_dst(tunfd,1);
+  char* in_out = argv[2];
+  printf("%s\n", in_out);
+  //printf("Faire la configuration de %s...\n",argv[1]);
+  //printf("Appuyez sur une touche pour continuer\n");
+  system("./configure-tun.sh");
+  if (strcmp(in_out,"0")==0){
+    printf("%s\n", in_out);
+    ext_out();
+  }else{
+    printf("je suis dans le else %s\n", in_out);
+    ext_in(tunfd);
+  }
+  //printf("Interface %s Configuree:\n",argv[1]);
+  //system("ip addr");
   printf("Appuyez sur une touche pour terminer\n");
   getchar();
 

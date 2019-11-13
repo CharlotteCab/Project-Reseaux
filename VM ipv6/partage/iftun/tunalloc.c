@@ -50,11 +50,11 @@ int main (int argc, char** argv){
   int tunfd;
   //printf("Creation de %s\n",argv[1]);
   tunfd = tun_alloc(argv[1]);
-  int in_out = argv[2];
+  char* in_out = argv[2];
   //printf("Faire la configuration de %s...\n",argv[1]);
   //printf("Appuyez sur une touche pour continuer\n");
   system("./configure-tun.sh");
-  if (in_out ==0){
+  if (strcmp(in_out,"0")==0){
     ext_out();
   }else{
     ext_in(tunfd);

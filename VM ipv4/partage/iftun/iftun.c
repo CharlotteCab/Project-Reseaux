@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "iftun.h"
 #include <string.h>
@@ -6,9 +7,13 @@
 #include <unistd.h>
 
 void copie_src_dst(int src, int dst){
-  int buf[10];
+  char buf[256]={0};
+  int cc;
   while(1){
-    read(src,buf,sizeof(int));
-    write(dst,buf,sizeof(int));
+    cc = read(src,buf,sizeof(buf));
+    if (cc == 0){
+    }else{
+      write(dst,buf,cc);
+    }
   }
 }
