@@ -7,7 +7,7 @@
 #define SOCKET_ERROR -1
 #define closesocket(s) close(s)
 typedef int SOCKET;
-typedef struct sockaddr_in SOCKADDR_IN;
+typedef struct sockaddr_in6 SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 #include <stdio.h>
 #include <stdlib.h>

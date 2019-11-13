@@ -24,26 +24,25 @@ void ext_out (){
         {
 
             /* Configuration */
-            sin.sin_addr.s_addr = htonl(INADDR_ANY);  /* Adresse IP automatique */
-            sin.sin_family = AF_INET;                 /* AF_INET --> IPv4*/
-            sin.sin_port = htons(PORT);               /* Port défini dans .h (précisé dans le sujet: 123) */
-            sock_err = bind(sock, (SOCKADDR*)&sin, recsize);
+            sin.sin6_addr = in6addr_any;  /* Adresse IP automatique */
+            sin.sin6_family = AF_INET6;                 /* AF_INET6 --> IPv6*/
+            sin.sin6_port = htons(PORT);               /* Port défini dans .h (précisé dans le sujet: 123) */
+            sock_err = bind(sock, (SOCKADDR*)&sin, sizeof(sin));
 
 
               if(sock_err != SOCKET_ERROR)
               {
 
-                    sock_err = listen(sock, 5);
-                    if(sock_err != SOCKET_ERROR)
-                    {
+                sock_err = listen(sock, 5);
+                if(sock_err != SOCKET_ERROR)
+                {
 
-                        csock = accept(sock, (SOCKADDR*)&csin, &crecsize);
+                    csock = accept(sock, (SOCKADDR*)&csin, &crecsize);
 
-                    }
-                    else
-                        perror("listen");
-                  }
-                //}
+                }
+                else
+                    perror("listen");
+              }
               else{
                   perror("bind");
               }
@@ -78,12 +77,12 @@ void ext_in(int fd){
     if(!erreur)
     {
         /* Création de la socket */
-        sock = socket(AF_INET, SOCK_STREAM, 0);
+        sock = socket(AF_INET6, SOCK_STREAM, 0);
 
         /* Configuration de la connexion */
-        sin.sin_addr.s_addr = inet_addr("127.0.0.1");
-        sin.sin_family = AF_INET;
-        sin.sin_port = htons(PORT);
+        sin.sin6_family = AF_INET6;
+        sin.sin6_port = htons(PORT);
+        inet_pton(AF_INET6, "fc00:1234:2::36", &sin.sin6_addr);
 
         /* Si le client arrive à se connecter */
         if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) == SOCKET_ERROR){
